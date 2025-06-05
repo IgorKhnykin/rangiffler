@@ -1,8 +1,6 @@
 package guru.ga.rangiffler.data;
 
-import guru.ga.rangiffler.model.FriendStatus;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.proxy.HibernateProxy;
@@ -32,7 +30,7 @@ public class FriendshipEntity implements Serializable {
     private Date createdDate;
 
     @Enumerated(EnumType.STRING)
-    private FriendStatus status;
+    private FriendshipStatus status;
 
     @Override
     public final boolean equals(Object o) {

@@ -17,7 +17,7 @@ create table if not exists "friendship"
     requester_id uuid    not null,
     addressee_id uuid    not null,
     status       varchar not null,
-    createdDate  date    not null,
+    created_date  date    not null,
     primary key (requester_id, addressee_id),
     constraint fk_requester_id foreign key (requester_id) references "user" (id),
     constraint fk_addressee_id foreign key (addressee_id) references "user" (id),

@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '3.3.2'
     id 'io.spring.dependency-management' version '1.1.6'
     id 'com.google.cloud.tools.jib' version '3.4.1'
+    id 'com.google.protobuf' version '0.9.4'
 }
 
 group = 'guru.ga'
@@ -9,6 +10,14 @@ version = 'unspecified'
 
 repositories {
     mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/snapshot' }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 dependencies {
@@ -27,6 +36,36 @@ dependencies {
     testImplementation "org.mockito:mockito-core:${project.ext.mockitoVersion}"
     testImplementation("org.mockito:mockito-junit-jupiter:${project.ext.mockitoVersion}") {
         exclude group: "org.junit.jupiter"
+    }
+
+    //grpc
+    implementation 'org.springframework.grpc:spring-grpc-spring-boot-starter'
+    implementation 'io.grpc:grpc-services'
+    implementation "com.google.protobuf:protobuf-java:${dependencyManagement.importedProperties['protobuf-java.version']}"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.grpc:spring-grpc-dependencies:0.9.0-SNAPSHOT'
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:${dependencyManagement.importedProperties['protobuf-java.version']}"
+    }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:${dependencyManagement.importedProperties['grpc.version']}"
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {
+                option 'jakarta_omit'
+                option '@generated=omit'
+            }
+        }
     }
 }
 

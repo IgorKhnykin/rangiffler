@@ -1,6 +1,5 @@
 package guru.ga.rangiffler.data;
 
-import guru.ga.rangiffler.model.FriendStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,7 +31,7 @@ public class UserEntity implements Serializable {
     private byte[] avatar;
 
     @Enumerated(EnumType.STRING)
-    private FriendStatus friendStatus;
+    private FriendshipStatus friendStatus;
 
     @OneToMany(mappedBy = "requester", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FriendshipEntity>  friendshipRequests;
