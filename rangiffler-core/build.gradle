@@ -20,10 +20,14 @@ configurations {
     }
 }
 
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.grpc:spring-grpc-dependencies:0.9.0-SNAPSHOT'
+    }
+}
+
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation "net.devh:grpc-client-spring-boot-starter:${project.ext.springGrpcVersion}"
     implementation "org.springframework.cloud:spring-cloud-starter-vault-config:${project.ext.springVaultVersion}"
     implementation "org.flywaydb:flyway-core:${project.ext.flywayVersion}"
     implementation "org.flywaydb:flyway-database-postgresql:${project.ext.flywayVersion}"
@@ -31,22 +35,16 @@ dependencies {
     compileOnly "org.projectlombok:lombok:${project.ext.lombokVersion}"
     runtimeOnly "org.postgresql:postgresql:${project.ext.postgresDriverVersion}"
 
+    //grpc
+    implementation 'org.springframework.grpc:spring-grpc-spring-boot-starter'
+    implementation 'io.grpc:grpc-services'
+    implementation "com.google.protobuf:protobuf-java:${dependencyManagement.importedProperties['protobuf-java.version']}"
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation "com.h2database:h2:${project.ext.h2Version}"
     testImplementation "org.mockito:mockito-core:${project.ext.mockitoVersion}"
     testImplementation("org.mockito:mockito-junit-jupiter:${project.ext.mockitoVersion}") {
         exclude group: "org.junit.jupiter"
-    }
-
-    //grpc
-    implementation 'org.springframework.grpc:spring-grpc-spring-boot-starter'
-    implementation 'io.grpc:grpc-services'
-    implementation "com.google.protobuf:protobuf-java:${dependencyManagement.importedProperties['protobuf-java.version']}"
-}
-
-dependencyManagement {
-    imports {
-        mavenBom 'org.springframework.grpc:spring-grpc-dependencies:0.9.0-SNAPSHOT'
     }
 }
 

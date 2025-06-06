@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package qa.grpc.rangiffler;
+
+option java_multiple_files = true;
+option java_package = "qa.grpc.rangiffler";
+option java_outer_classname = "RangifflerProto";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service UserService {
+  rpc getUser(GetUserNameRequest) returns (UserResponse) {}
+  rpc getUsers(google.protobuf.Empty) returns (UsersResponse) {}
+  rpc getCountries(google.protobuf.Empty) returns (AllCountries) {}
+  rpc getUserCountries(GetUserNameRequest) returns (AllCountries) {}
+  rpc getFriends(GetUserNameRequest) returns (UsersResponse) {}
+  rpc getOutcomeInvitation(GetUserNameRequest) returns (UsersResponse) {}
+  rpc getIncomeInvitation(GetUserNameRequest) returns (UsersResponse) {}
+}
+
+message GetUserNameRequest{
+  string userName = 1;
+}
+
+message UsersResponse {
+  repeated UserResponse userResponse = 1;
+}
+
+message UserResponse {
+  string id = 1;
+  string firstname = 2;
+  bytes avatar = 3;
+  FriendshipStatus friendStatus = 4;
+  repeated Friendship friendship = 5;
+  Country location = 6;
+}
+
+message Friendship {
+  string requester = 1;
+  string addressee = 2;
+  google.protobuf.Timestamp date = 3;
+  FriendshipStatus friendStatus = 4;
+}
+
+message AllCountries {
+  repeated Country country = 1;
+}
+
+message Country {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  bytes flag = 4;
+}
+
+enum FriendshipStatus {
+  UNKNOWN = 0;
+  PENDING = 1;
+  ACCEPTED = 2;
+}
