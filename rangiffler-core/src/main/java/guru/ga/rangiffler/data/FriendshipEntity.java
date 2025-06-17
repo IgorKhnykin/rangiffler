@@ -1,7 +1,9 @@
 package guru.ga.rangiffler.data;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.proxy.HibernateProxy;
 
@@ -12,6 +14,8 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "friendship")
 @IdClass(FriendshipId.class)
 public class FriendshipEntity implements Serializable {

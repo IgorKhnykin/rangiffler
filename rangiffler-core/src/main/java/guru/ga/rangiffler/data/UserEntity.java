@@ -6,9 +6,8 @@ import lombok.Setter;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Stream;
 
 @Getter
 @Setter
@@ -41,6 +40,38 @@ public class UserEntity implements Serializable {
 
     @ManyToOne
     private CountryEntity location;
+
+    public void sendInvitations(UserEntity... targetUsers) {
+        List<FriendshipEntity> requesterFriendshipEntities = Stream.of(targetUsers).map(tu -> new FriendshipEntity(
+                this,
+                tu,
+                new Date(),
+                FriendshipStatus.PENDING
+        )).toList();
+
+        friendshipRequests.addAll(requesterFriendshipEntities);
+    }
+
+    public void addFriends(UserEntity... targetUsers) {
+        List<FriendshipEntity> friendshipRequesterEntities = Stream.of(targetUsers).map(tu -> new FriendshipEntity(
+                this,
+                tu,
+                new Date(),
+                FriendshipStatus.ACCEPTED
+        )).toList();
+
+        friendshipAddressees.addAll(friendshipRequesterEntities);
+    }
+
+    public void removeInvitation(UserEntity... userWithInvitation) {
+        List<UUID> idsToRemove = Stream.of(userWithInvitation)
+                .map(UserEntity::getId)
+                .toList();
+
+        friendshipRequests.removeIf(fr ->
+                idsToRemove.contains(fr.getAddressee().getId())
+        );
+    }
 
     @Override
     public final boolean equals(Object o) {

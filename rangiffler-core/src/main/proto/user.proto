@@ -17,10 +17,10 @@ service UserService {
   rpc getFriends(UserResponse) returns (UsersResponse) {}
   rpc getOutcomeInvitation(UserResponse) returns (UsersResponse) {}
   rpc getIncomeInvitation(UserResponse) returns (UsersResponse) {}
-  rpc SendFriendshipInvitation(UserResponse) returns (UserResponse) {}
-  rpc AcceptFriendship(UserResponse) returns (UserResponse) {}
-  rpc DeclineFriend(UserResponse) returns (UserResponse) {}
-  rpc RemoveFriend(UserResponse) returns (google.protobuf.Empty) {}
+  rpc SendFriendshipInvitation(FriendshipAction) returns (UserResponse) {}
+  rpc AcceptFriendshipInvitation(FriendshipAction) returns (UserResponse) {}
+  rpc DeclineFriendshipInvitation(FriendshipAction) returns (UserResponse) {}
+  rpc RemoveFriend(FriendshipAction) returns (google.protobuf.Empty) {}
 }
 
 message GetUserNameRequest{
@@ -58,6 +58,12 @@ message Country {
   string code = 2;
   string name = 3;
   bytes flag = 4;
+}
+
+message FriendshipAction {
+  string targetUser = 1;
+  string requestSender = 2;
+
 }
 
 enum FriendshipStatus {
