@@ -6,8 +6,11 @@ create table if not exists "user"
     firstname varchar(50) unique not null,
     surname   varchar(50),
     avatar    bytea,
+    location_id uuid,
     primary key (id)
 );
+insert into "user" (firstname, surname, location_id)
+VALUES ('Igor', 'Khnykin', '4be33cd0-42b2-11f0-9a66-0242ac110004');
 
 alter table "user"
     owner to postgres;

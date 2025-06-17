@@ -14,13 +14,18 @@ service UserService {
   rpc getUsers(google.protobuf.Empty) returns (UsersResponse) {}
   rpc getCountries(google.protobuf.Empty) returns (AllCountries) {}
   rpc getUserCountries(GetUserNameRequest) returns (AllCountries) {}
-  rpc getFriends(GetUserNameRequest) returns (UsersResponse) {}
-  rpc getOutcomeInvitation(GetUserNameRequest) returns (UsersResponse) {}
-  rpc getIncomeInvitation(GetUserNameRequest) returns (UsersResponse) {}
+  rpc getFriends(UserResponse) returns (UsersResponse) {}
+  rpc getOutcomeInvitation(UserResponse) returns (UsersResponse) {}
+  rpc getIncomeInvitation(UserResponse) returns (UsersResponse) {}
+  rpc SendFriendshipInvitation(UserResponse) returns (UserResponse) {}
+  rpc AcceptFriendship(UserResponse) returns (UserResponse) {}
+  rpc DeclineFriend(UserResponse) returns (UserResponse) {}
+  rpc RemoveFriend(UserResponse) returns (google.protobuf.Empty) {}
 }
 
 message GetUserNameRequest{
-  string userName = 1;
+  string username = 2;
+  reserved 1;
 }
 
 message UsersResponse {
@@ -34,6 +39,7 @@ message UserResponse {
   FriendshipStatus friendStatus = 4;
   repeated Friendship friendship = 5;
   Country location = 6;
+  string surname = 7;
 }
 
 message Friendship {
