@@ -30,6 +30,12 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
     private final UserRepository userRepository;
     private final CountryRepository countryRepository;
 
+    @Autowired
+    public UserService(UserRepository userRepository, CountryRepository countryRepository) {
+        this.userRepository = userRepository;
+        this.countryRepository = countryRepository;
+    }
+
     @Transactional
     @KafkaListener(topics = "users", groupId = "userdata")
     public void listener(ConsumerRecord<String, UserJson> cr) {
@@ -40,12 +46,6 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
                     userRepository.save(UserEntity.authUser(firstname));
                     LOGGER.info("User with name {} successfully added to db", firstname);
                 });
-    }
-
-    @Autowired
-    public UserService(UserRepository userRepository, CountryRepository countryRepository) {
-        this.userRepository = userRepository;
-        this.countryRepository = countryRepository;
     }
 
     @Override
@@ -103,7 +103,7 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
         responseObserver.onCompleted();
     }
 
-    @Override
+    @Override //todo дописать
     @Transactional(readOnly = true)
     public void getOutcomeInvitation(UserResponse request, StreamObserver<UsersResponse> responseObserver) {
         super.getOutcomeInvitation(request, responseObserver);
