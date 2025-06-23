@@ -1,12 +1,12 @@
-package controller;
+package guru.qa.rangiffler.controller;
 
 import jakarta.validation.Valid;
-import model.UserJson;
+import guru.qa.rangiffler.model.UserJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
-import service.GrpcUserClient;
+import guru.qa.rangiffler.service.GrpcUserClient;
 
 import java.util.List;
 

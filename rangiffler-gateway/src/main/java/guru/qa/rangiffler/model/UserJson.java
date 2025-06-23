@@ -1,4 +1,4 @@
-package model;
+package guru.qa.rangiffler.model;
 
 import qa.grpc.rangiffler.UserResponse;
 

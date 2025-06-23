@@ -1,10 +1,10 @@
-package service;
+package guru.qa.rangiffler.service;
 
 
 import com.google.protobuf.Empty;
 import io.grpc.StatusRuntimeException;
-import model.CountryJson;
-import model.UserJson;
+import guru.qa.rangiffler.model.CountryJson;
+import guru.qa.rangiffler.model.UserJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.grpc.server.service.GrpcService;

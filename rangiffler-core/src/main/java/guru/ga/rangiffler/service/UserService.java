@@ -103,16 +103,32 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
         responseObserver.onCompleted();
     }
 
-    @Override //todo дописать
-    @Transactional(readOnly = true)
+    @Override
+    @Transactional
     public void getOutcomeInvitation(UserResponse request, StreamObserver<UsersResponse> responseObserver) {
-        super.getOutcomeInvitation(request, responseObserver);
+        UsersResponse.Builder friendsResponseBuilder = UsersResponse.newBuilder();
+        userRepository.findOutcomeInvitations(getRequiredUser(request.getFirstname())).forEach(ue -> {
+            UserResponse userResponse = fromUserEntity(ue);
+            friendsResponseBuilder
+                    .addUserResponse(userResponse);
+        });
+
+        responseObserver.onNext(friendsResponseBuilder.build());
+        responseObserver.onCompleted();
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public void getIncomeInvitation(UserResponse request, StreamObserver<UsersResponse> responseObserver) {
-        super.getIncomeInvitation(request, responseObserver);
+        UsersResponse.Builder friendsResponseBuilder = UsersResponse.newBuilder();
+        userRepository.findIncomeInvitations(getRequiredUser(request.getFirstname())).forEach(ue -> {
+            UserResponse userResponse = fromUserEntity(ue);
+            friendsResponseBuilder
+                    .addUserResponse(userResponse);
+        });
+
+        responseObserver.onNext(friendsResponseBuilder.build());
+        responseObserver.onCompleted();
     }
 
     @Override

@@ -1,9 +1,7 @@
-package model;
+package guru.qa.rangiffler.model;
 
-import guru.ga.rangiffler.data.CountryEntity;
 import qa.grpc.rangiffler.Country;
 
-import java.util.Arrays;
 import java.util.UUID;
 
 public record CountryJson(UUID id, String code, String name, String flag) {
