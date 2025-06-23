@@ -6,7 +6,10 @@ import lombok.Setter;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 @Getter
@@ -33,13 +36,19 @@ public class UserEntity implements Serializable {
     private FriendshipStatus friendStatus;
 
     @OneToMany(mappedBy = "requester", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FriendshipEntity>  friendshipRequests;
+    private List<FriendshipEntity> friendshipRequests;
 
     @OneToMany(mappedBy = "addressee", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FriendshipEntity>  friendshipAddressees;
+    private List<FriendshipEntity> friendshipAddressees;
 
     @ManyToOne
     private CountryEntity location;
+
+    public static UserEntity authUser(String firstname) {
+        UserEntity ue = new UserEntity();
+        ue.setFirstname(firstname);
+        return ue;
+    }
 
     public void sendInvitations(UserEntity... targetUsers) {
         List<FriendshipEntity> requesterFriendshipEntities = Stream.of(targetUsers).map(tu -> new FriendshipEntity(
@@ -69,8 +78,28 @@ public class UserEntity implements Serializable {
                 .toList();
 
         friendshipRequests.removeIf(fr ->
-                idsToRemove.contains(fr.getAddressee().getId())
+                idsToRemove.contains(fr.getAddressee().getId()) && fr.getAddressee().friendStatus.equals(FriendshipStatus.PENDING)
         );
+    }
+
+    public void removeFriend(UserEntity... userWithInvitation) {
+        List<UUID> idsToRemove = Stream.of(userWithInvitation)
+                .map(UserEntity::getId)
+                .toList();
+
+        friendshipRequests.removeIf(fr -> {
+            if (fr == null) {
+                return false;
+            }
+            return idsToRemove.contains(fr.getAddressee().getId()) && fr.getAddressee().friendStatus.equals(FriendshipStatus.ACCEPTED);
+        });
+
+        friendshipAddressees.removeIf(fr -> {
+            if (fr == null) {
+                return false;
+            }
+            return idsToRemove.contains(fr.getRequester().getId()) && fr.getStatus().equals(FriendshipStatus.ACCEPTED);
+        });
     }
 
     @Override
