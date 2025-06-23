@@ -22,14 +22,13 @@ public class GrpcUserClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(GrpcUserClient.class);
     private static final Empty EMPTY = Empty.getDefaultInstance();
 
-
     private UserServiceGrpc.UserServiceBlockingStub userServiceBlockingStub;
 
-    public UserJson getUser(String firstname) {
+    public UserJson getUser(String username) {
         try {
             UserResponse user = userServiceBlockingStub.getUser(
                     GetUserNameRequest.newBuilder()
-                            .setUsername(firstname)
+                            .setUsername(username)
                             .build());
 
             return UserJson.fromUserResponse(user);
