@@ -1,32 +1,30 @@
-package guru.ga.rangiffler.data;
+package guru.ga.rangiffler.data.repository;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.sql.Timestamp;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Getter
 @Setter
-@Table(name = "countries")
-public class CountryEntity {
+@Getter
+@Table(name = "like")
+public class LikeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(nullable = false, columnDefinition = "UUID default gen_random_uuid()")
     private UUID id;
 
-    @Column(nullable = false, length = 2)
-    private String code;
+    @Column(name = "user_firstname", nullable = false)
+    private String userFirstname;
 
-    @Column(nullable = false, length = 50)
-    private String name; //todo сделать уникальным
-
-    @Column(columnDefinition = "bytea")
-    private byte[] flag;
+    @Column(name = "created_date")
+    private Timestamp createdDate;
 
     @Override
     public final boolean equals(Object o) {
@@ -35,8 +33,8 @@ public class CountryEntity {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        CountryEntity that = (CountryEntity) o;
-        return getCode() != null && Objects.equals(getCode(), that.getCode());
+        LikeEntity that = (LikeEntity) o;
+        return getId() != null && Objects.equals(getId(), that.getId());
     }
 
     @Override
