@@ -38,12 +38,6 @@ spring:
     graphiql:
       enabled: true
 
-grpc:
-  client:
-    grpcCurrencyClient:
-      address: 'static://localhost:8092'
-      negotiationType: PLAINTEXT
-
 niffler-core:
   base-uri: 'http://127.0.0.1:8070'
 niffler-front:
