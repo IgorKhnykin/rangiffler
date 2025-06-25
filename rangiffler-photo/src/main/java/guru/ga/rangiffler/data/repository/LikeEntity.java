@@ -12,7 +12,7 @@ import java.util.UUID;
 @Entity
 @Setter
 @Getter
-@Table(name = "like")
+@Table(name = "likes")
 public class LikeEntity {
 
     @Id

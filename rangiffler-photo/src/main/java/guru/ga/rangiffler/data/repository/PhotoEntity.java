@@ -8,6 +8,7 @@ import org.hibernate.proxy.HibernateProxy;
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@Table(schema = "photo")
+@Table(name = "photo")
 public class PhotoEntity implements Serializable {
 
     @Id
@@ -31,13 +32,13 @@ public class PhotoEntity implements Serializable {
 
     private String description;
 
-    @Column(columnDefinition = "longblob")
+    @Column(columnDefinition = "bytea")
     private byte[] photo;
 
     @Column(name = "created_date")
-    private Timestamp createdDate;
+    private LocalDateTime createdDate;
 
-    @OneToMany(mappedBy = "photo_id", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "photo", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LikedPhotoEntity> likedPhotoEntities;
 
     @Override
