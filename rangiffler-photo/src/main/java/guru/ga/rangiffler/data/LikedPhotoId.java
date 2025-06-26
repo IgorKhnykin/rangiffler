@@ -1,4 +1,4 @@
-package guru.ga.rangiffler.data.repository;
+package guru.ga.rangiffler.data;
 
 import lombok.Getter;
 import lombok.Setter;

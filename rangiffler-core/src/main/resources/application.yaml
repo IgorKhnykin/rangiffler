@@ -40,3 +40,8 @@ spring:
       - 'org.springframework.cloud.vault.config.VaultAutoConfiguration'
       - 'org.springframework.cloud.vault.config.VaultObservationAutoConfiguration'
       - 'org.springframework.cloud.vault.config.VaultReactiveAutoConfiguration'
+logging:
+  level:
+    org.hibernate.SQL: DEBUG          # Показывает SQL-запросы
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # Показывает параметры запросов
+    org.hibernate.stat: DEBUG

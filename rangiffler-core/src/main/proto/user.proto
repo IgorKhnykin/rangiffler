@@ -10,11 +10,11 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 
 service UserService {
-  rpc getUser(GetUserNameRequest) returns (UserResponse) {}
-  rpc getUsers(google.protobuf.Empty) returns (UsersResponse) {}
-  rpc getCountries(google.protobuf.Empty) returns (AllCountries) {}
-  rpc getUserCountries(GetUserNameRequest) returns (AllCountries) {}
-  rpc getFriends(UserResponse) returns (UsersResponse) {}
+  rpc GetUser(GetUserNameRequest) returns (UserResponse) {}
+  rpc GetUsers(google.protobuf.Empty) returns (UsersResponse) {}
+  rpc GetCountries(google.protobuf.Empty) returns (AllCountries) {}
+  rpc GetUserCountries(GetUserNameRequest) returns (AllCountries) {}
+  rpc GetFriends(UserResponse) returns (UsersResponse) {}
   rpc getOutcomeInvitation(UserResponse) returns (UsersResponse) {}
   rpc getIncomeInvitation(UserResponse) returns (UsersResponse) {}
   rpc SendFriendshipInvitation(FriendshipAction) returns (UserResponse) {}

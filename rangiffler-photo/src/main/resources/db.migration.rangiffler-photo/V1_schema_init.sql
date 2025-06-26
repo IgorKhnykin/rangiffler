@@ -5,8 +5,8 @@ create table if not exists photo
     user_firstname          varchar(255)        not null,
     country_name            varchar(255)        not null,
     description             varchar(255),
-    photo                   bytea,
-    created_date            date            not null,
+    photo                   bytea               not null,
+    created_date            date                not null,
     primary key (id)
 );
 

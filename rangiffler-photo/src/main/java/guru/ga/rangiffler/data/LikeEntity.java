@@ -1,45 +1,30 @@
-package guru.ga.rangiffler.data.repository;
+package guru.ga.rangiffler.data;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.proxy.HibernateProxy;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Getter
 @Setter
-@Table(name = "photo")
-public class PhotoEntity implements Serializable {
+@Getter
+@Table(name = "likes")
+public class LikeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, columnDefinition = "UUID default gen_random_uuid()")
     private UUID id;
 
     @Column(name = "user_firstname", nullable = false)
     private String userFirstname;
 
-    @Column(name = "country_name", nullable = false)
-    private String countryName;
-
-    private String description;
-
-    @Column(columnDefinition = "bytea")
-    private byte[] photo;
-
     @Column(name = "created_date")
-    private LocalDateTime createdDate;
-
-    @OneToMany(mappedBy = "photo", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LikedPhotoEntity> likedPhotoEntities;
+    private Timestamp createdDate;
 
     @Override
     public final boolean equals(Object o) {
@@ -48,7 +33,7 @@ public class PhotoEntity implements Serializable {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        PhotoEntity that = (PhotoEntity) o;
+        LikeEntity that = (LikeEntity) o;
         return getId() != null && Objects.equals(getId(), that.getId());
     }
 

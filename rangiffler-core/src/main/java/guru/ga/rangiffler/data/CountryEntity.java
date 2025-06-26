@@ -43,4 +43,20 @@ public class CountryEntity {
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
+
+    //**@Entity //todo сделать отдельный микросервис
+    //@Table(name = "users")
+    //public class User {
+    //    @Column(name = "country_code")
+    //    private String countryCode; // ISO Alpha-2 код (US, RU и т.д.)
+    //
+    //    // Транзиентное поле (не сохраняется в БД)
+    //    @Transient
+    //    private Country country;
+    //
+    //    public Country getCountry() {
+    //        // Делает запрос в Countries Service
+    //        return countriesClient.getCountry(countryCode);
+    //    }
+    //}
 }
