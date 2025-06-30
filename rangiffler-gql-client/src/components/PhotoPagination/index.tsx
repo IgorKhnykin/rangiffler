@@ -1,5 +1,5 @@
 import {Box, Button} from "@mui/material"
-import { FC } from "react"
+import {FC} from "react"
 
 interface PhotoPaginationInterface {
     hasNextValues: boolean;
