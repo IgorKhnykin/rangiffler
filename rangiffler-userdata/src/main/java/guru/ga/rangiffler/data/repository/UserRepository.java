@@ -21,6 +21,6 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
     @Query("select distinct u from UserEntity u join FriendshipEntity f on u = f.requester where f.requester = :requester and f.status = 'PENDING'")
     List<UserEntity> findOutcomeInvitations(@Param("requester") UserEntity requester);
 
-    @Query("select distinct u from UserEntity u join FriendshipEntity f on u = f.addressee where f.addressee = :requester and f.status = 'PENDING'")
-    List<UserEntity> findIncomeInvitations(@Param("addressee") UserEntity requester);
+    @Query("select distinct u from UserEntity u join FriendshipEntity f on u = f.addressee where f.addressee = :addressee and f.status = 'PENDING'")
+    List<UserEntity> findIncomeInvitations(@Param("addressee") UserEntity addressee);
 }

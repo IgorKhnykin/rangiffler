@@ -207,6 +207,9 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
     }
 
     private Country fromCountryEntity(CountryEntity ce) {
+        if (ce == null) {
+            return Country.newBuilder().getDefaultInstanceForType();
+        }
         return Country.newBuilder()
                 .setId(ce.getId() == null ? "" : ce.getId().toString())
                 .setCode(ce.getCode())
@@ -219,13 +222,6 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
         UserEntity user = new UserEntity();
         user.setFirstname("DEFAULT USER");
         return user;
-    }
-
-    private static CountryEntity getDefaultCountry() {
-        CountryEntity country = new CountryEntity();
-        country.setName("DEFAULT COUNTRY");
-        country.setCode("NA");
-        return country;
     }
 
     private UserEntity getRequiredUser(String username) {

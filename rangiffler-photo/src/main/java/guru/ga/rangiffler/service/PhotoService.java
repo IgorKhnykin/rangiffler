@@ -22,8 +22,8 @@ import java.util.UUID;
 @GrpcService
 public class PhotoService extends ProtoServiceGrpc.ProtoServiceImplBase {
 
-    private PhotoRepository photoRepository;
-    private LikeRepository likeRepository;
+    private final PhotoRepository photoRepository;
+    private final LikeRepository likeRepository;
 
     @Autowired
     public PhotoService(PhotoRepository photoRepository, LikeRepository likeRepository) {
