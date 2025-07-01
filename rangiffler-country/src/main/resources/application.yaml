@@ -1,12 +1,12 @@
 server:
-  port: 8072
+  port: 8073
 
 spring:
   application:
-    name: rangiffler-userdata
+    name: rangiffler-country
 
   datasource:
-    url: 'jdbc:postgresql://localhost:5432/rangiffler-userdata'
+    url: 'jdbc:postgresql://localhost:5432/rangiffler-countries'
     username: postgres
     password: secret
     hikari:
@@ -21,7 +21,7 @@ spring:
     baseline-on-migrate: true
     baseline-version: 0
     schemas: public
-    locations: classpath:db/migration/rangiffler-userdata
+    locations: classpath:db/migration/rangiffler-country
   jpa:
     hibernate:
       ddl-auto: none
@@ -40,3 +40,9 @@ spring:
       - 'org.springframework.cloud.vault.config.VaultAutoConfiguration'
       - 'org.springframework.cloud.vault.config.VaultObservationAutoConfiguration'
       - 'org.springframework.cloud.vault.config.VaultReactiveAutoConfiguration'
+
+logging:
+  level:
+    org:
+      flywaydb:
+        DEBUG
