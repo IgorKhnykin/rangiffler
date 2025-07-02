@@ -5,7 +5,6 @@ import com.google.protobuf.Empty;
 import guru.ga.rangiffler.data.CountryEntity;
 import guru.ga.rangiffler.data.FriendshipEntity;
 import guru.ga.rangiffler.data.UserEntity;
-import guru.ga.rangiffler.data.repository.CountryRepository;
 import guru.ga.rangiffler.data.repository.UserRepository;
 import guru.qa.rangiffler.model.UserJson;
 import io.grpc.stub.StreamObserver;
@@ -15,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import qa.grpc.rangiffler.*;
 

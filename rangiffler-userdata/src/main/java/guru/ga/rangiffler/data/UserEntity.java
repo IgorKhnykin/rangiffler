@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.proxy.HibernateProxy;
-import org.springframework.boot.autoconfigure.pulsar.PulsarProperties;
 import qa.grpc.rangiffler.Country;
 
 import java.io.Serializable;
@@ -44,14 +43,15 @@ public class UserEntity implements Serializable {
     @OneToMany(mappedBy = "addressee", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FriendshipEntity> friendshipAddressees;
 
-    @Column(name = "location_id")
-    private UUID countryId;
+    @Column(name = "country_code")
+    private String countryCode;
 
     @Transient
     private CountryEntity country;
 
     public CountryEntity setCountry() {
-        Country countryGrpc = new GrpcCountryClient().getCountryById(String.valueOf(countryId));
+        Country countryGrpc = new GrpcCountryClient().getCountryCode(countryCode);
+        country = new CountryEntity();
         country.setId(UUID.fromString(countryGrpc.getId()));
         country.setCode(countryGrpc.getCode());
         country.setName(countryGrpc.getName());

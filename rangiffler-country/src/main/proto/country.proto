@@ -12,15 +12,15 @@ import "google/protobuf/timestamp.proto";
 service CountryService {
   rpc GetCountries(google.protobuf.Empty) returns (AllCountries) {}
   rpc GetUserCountries(GetUserCountriesRequest) returns (AllCountries) {}
-  rpc GetCountryById(GetCountryByIdRequest) returns (Country) {}
+  rpc GetCountryByCode(GetCountryByCodeRequest) returns (Country) {}
 }
 
 message GetUserCountriesRequest{
   string name = 1;
 }
 
-message GetCountryByIdRequest{
-  string id = 1;
+message GetCountryByCodeRequest{
+  string code = 1;
 }
 
 message AllCountries {

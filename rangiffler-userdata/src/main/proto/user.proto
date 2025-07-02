@@ -12,8 +12,6 @@ import "google/protobuf/timestamp.proto";
 service UserService {
   rpc GetUser(GetUserNameRequest) returns (UserResponse) {}
   rpc GetUsers(google.protobuf.Empty) returns (UsersResponse) {}
-  rpc GetCountries(google.protobuf.Empty) returns (AllCountries) {}
-  rpc GetUserCountries(GetUserNameRequest) returns (AllCountries) {}
   rpc GetFriends(UserResponse) returns (UsersResponse) {}
   rpc getOutcomeInvitation(UserResponse) returns (UsersResponse) {}
   rpc getIncomeInvitation(UserResponse) returns (UsersResponse) {}
@@ -47,10 +45,6 @@ message Friendship {
   string addressee = 2;
   google.protobuf.Timestamp date = 3;
   FriendshipStatus friendStatus = 4;
-}
-
-message AllCountries {
-  repeated Country country = 1;
 }
 
 message Country {

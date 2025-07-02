@@ -44,8 +44,8 @@ public class CountryService extends CountryServiceGrpc.CountryServiceImplBase {
     }
 
     @Override
-    public void getCountryById(GetCountryByIdRequest request, StreamObserver<Country> responseObserver) {
-        CountryEntity country = countryRepository.findByName(request.getId());
+    public void getCountryByCode(GetCountryByCodeRequest request, StreamObserver<Country> responseObserver) {
+        CountryEntity country = countryRepository.findByCode(request.getCode());
         Country countryGrpc = Country.getDefaultInstance();
         if (country != null) {
             countryGrpc = Country.newBuilder()

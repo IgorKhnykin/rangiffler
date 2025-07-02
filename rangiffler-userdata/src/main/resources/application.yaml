@@ -48,7 +48,6 @@ grpc:
     port: 9091
 
   client:
-
     grpcCountryClient:
       address: 'static://localhost:9091'
       negotiationType: PLAINTEXT
