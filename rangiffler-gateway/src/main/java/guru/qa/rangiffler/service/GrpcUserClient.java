@@ -52,20 +52,6 @@ public class GrpcUserClient {
         }
     }
 
-    public List<CountryJson> getCountries() {
-        try {
-            return userServiceBlockingStub.getCountries(EMPTY)
-                    .getCountryList()
-                    .stream()
-                    .map(CountryJson::fromCountryResponse)
-                    .toList();
-
-        } catch (StatusRuntimeException e) {
-            LOGGER.info("Error while calling gRPC server ", e);
-            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "The gRPC operation was cancelled", e);
-        }
-    }
-
     public List<UserJson> getFriends(String username) {
         try {
             return userServiceBlockingStub.getFriends(generateUserResponse(username))

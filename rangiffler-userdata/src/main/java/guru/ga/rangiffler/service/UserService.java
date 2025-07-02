@@ -9,12 +9,13 @@ import guru.ga.rangiffler.data.repository.CountryRepository;
 import guru.ga.rangiffler.data.repository.UserRepository;
 import guru.qa.rangiffler.model.UserJson;
 import io.grpc.stub.StreamObserver;
+import net.devh.boot.grpc.server.service.GrpcService;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.grpc.server.service.GrpcService;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import qa.grpc.rangiffler.*;
 
@@ -26,12 +27,10 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
     private static final UserEntity DEFAULT_USER = getDefaultUser();
 
     private final UserRepository userRepository;
-    private final CountryRepository countryRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, CountryRepository countryRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.countryRepository = countryRepository;
     }
 
     @Transactional
@@ -72,24 +71,7 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
 
     @Override
     @Transactional(readOnly = true)
-    public void getCountries(Empty request, StreamObserver<AllCountries> responseObserver) {
-        AllCountries.Builder countriesBuilder = AllCountries.newBuilder();
-        countryRepository.findAll().forEach(ce -> {
-            Country countryResp = Country.newBuilder()
-                    .setId(ce.getId().toString())
-                    .setName(ce.getName())
-                    .setCode(ce.getCode())
-                    .setFlag(ByteString.copyFrom(ce.getFlag()))
-                    .build();
-            countriesBuilder.addCountry(countryResp);
-        });
-        responseObserver.onNext(countriesBuilder.build());
-        responseObserver.onCompleted();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public void getFriends(UserResponse request, StreamObserver<UsersResponse> responseObserver) { //todo проверить
+    public void getFriends(UserResponse request, StreamObserver<UsersResponse> responseObserver) {
         UsersResponse.Builder friendsResponseBuilder = UsersResponse.newBuilder();
         userRepository.findFriends(getRequiredUser(request.getFirstname())).forEach(ue -> {
             UserResponse userResponse = fromUserEntity(ue);
@@ -202,7 +184,7 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
                 .setSurname(ue.getSurname() == null ? "" : ue.getSurname())
                 .setAvatar(ue.getAvatar() == null || ue.getAvatar().length == 0 ? ByteString.empty() : ByteString.copyFrom(ue.getAvatar()))//
                 .setFriendStatus(ue.getFriendStatus() == null ? FriendshipStatus.UNKNOWN : FriendshipStatus.valueOf(ue.getFriendStatus().name()))
-                .setLocation(fromCountryEntity(ue.getLocation()))
+                .setLocation(fromCountryEntity(ue.setCountry()))
                 .build();
     }
 

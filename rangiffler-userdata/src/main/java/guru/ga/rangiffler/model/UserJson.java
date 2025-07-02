@@ -13,6 +13,6 @@ public record UserJson(UUID id, String firstname, String surname, String avatar,
                 ue.getFirstname(),
                 ue.getSurname(),
                 ue.getAvatar().length > 0 || ue.getAvatar() != null ? Arrays.toString(ue.getAvatar()) : null,
-                ue.getLocation() != null ? CountryJson.fromCountryEntity(ue.getLocation()) : null);
+                ue.getCountry() != null ? CountryJson.fromCountryEntity(ue.setCountry()) : null);
     }
 }

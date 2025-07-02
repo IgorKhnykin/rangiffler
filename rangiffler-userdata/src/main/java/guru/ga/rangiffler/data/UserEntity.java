@@ -1,9 +1,12 @@
 package guru.ga.rangiffler.data;
 
+import guru.ga.rangiffler.client.GrpcCountryClient;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.proxy.HibernateProxy;
+import org.springframework.boot.autoconfigure.pulsar.PulsarProperties;
+import qa.grpc.rangiffler.Country;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -41,8 +44,20 @@ public class UserEntity implements Serializable {
     @OneToMany(mappedBy = "addressee", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FriendshipEntity> friendshipAddressees;
 
-    @ManyToOne
-    private CountryEntity location;
+    @Column(name = "location_id")
+    private UUID countryId;
+
+    @Transient
+    private CountryEntity country;
+
+    public CountryEntity setCountry() {
+        Country countryGrpc = new GrpcCountryClient().getCountryById(String.valueOf(countryId));
+        country.setId(UUID.fromString(countryGrpc.getId()));
+        country.setCode(countryGrpc.getCode());
+        country.setName(countryGrpc.getName());
+        country.setFlag(countryGrpc.getFlag().toByteArray());
+        return country;
+    }
 
     public static UserEntity authUser(String firstname) {
         UserEntity ue = new UserEntity();

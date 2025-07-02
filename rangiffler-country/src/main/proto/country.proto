@@ -9,19 +9,18 @@ option java_outer_classname = "RangifflerProto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 
-service UserService {
-
+service CountryService {
   rpc GetCountries(google.protobuf.Empty) returns (AllCountries) {}
-  rpc GetUserCountries(GetUserNameRequest) returns (AllCountries) {}
-  rpc GetCountryByName(GetCountryByCodeRequest) returns (Country) {}
+  rpc GetUserCountries(GetUserCountriesRequest) returns (AllCountries) {}
+  rpc GetCountryById(GetCountryByIdRequest) returns (Country) {}
 }
 
-message GetUserNameRequest{
-  string username = 1;
-}
-
-message GetCountryByCodeRequest{
+message GetUserCountriesRequest{
   string name = 1;
+}
+
+message GetCountryByIdRequest{
+  string id = 1;
 }
 
 message AllCountries {
